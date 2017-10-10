@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        .box{
+            width: 500px;
+            background: -webkit-linear-gradient(-45deg,lightblue,lightpink,lightcyan,lightgoldenrodyellow,lightblue);
+            background: linear-gradient(-45deg,lightblue,lightpink,lightcyan,lightgoldenrodyellow,lightblue);
+        }
+        .box li{
+            line-height: 40px;
+        }
+        .box li span{
+            display: block;
+        }
+        .box li span.close:before{
+            content: "+";  /*收起*/
+            color: red;
+            font-weight: bold;
+            font-size: 20px;
+
+        }
+        .box li span.open:before{
+            content: "-";/*展开*/
+            color: red;
+            font-weight: bold;
+            font-size: 30px;
+
+        }
+    </style>
+</head>
+<body>
+<ul class="box" id="box">
+    <li><span>第一级菜单</span>
+        <ul>
+            <li><span>第二级菜单</span>
+                <ul>
+                    <li><span>第三级菜单</span>
+                        <ul>
+                            <li><span>第四级菜单</span></li>
+                            <li><span>第四级菜单</span></li>
+                        </ul>
+                    </li>
+                    <li><span>第三级菜单</span></li>
+                    <li><span>第三级菜单</span></li>
+                    <li><span>第三级菜单</span></li>
+                </ul>
+            </li>
+            <li><span>第二级菜单</span>
+
+                <ul>
+                    <li><span>第三级菜单</span></li>
+                    <li><span>第三级菜单</span></li>
+                    <li><span>第三级菜单</span></li>
+                    <li><span>第三级菜单</span></li>
+                </ul>
+
+            </li>
+            <li><span>第二级菜单</span></li>
+            <li><span>第二级菜单</span></li>
+        </ul>
+    </li>
+    <li><span>第一级菜单</span></li>
+    <li><span>第一级菜单</span></li>
+    <li><span>第一级菜单</span></li>
+</ul>
+</body>
+</html>
+<script>
+    var oBox = document.getElementById("box");
+    var oSpans = oBox.getElementsByTagName("span");
+    for(var i = 0;i<oSpans.length;i++){
+        var oSpan = oSpans[i];
+        var next = oSpan.nextElementSibling;
+        if(next&&next.nodeName.toLowerCase()=="ul"){
+            next.style.display = "none";
+            oSpan.className = "close";
+        }else{
+            oSpan.className = "open";
+        }
+    }
+    oBox.onclick = function(e){
+        e = e||window.event;
+        e.target = e.target|| e.srcElement;
+        if(e.target.nodeName.toLowerCase()=="span"){
+            var oUl = e.target.nextElementSibling;
+            if(oUl&&oUl.nodeName.toLowerCase()=="ul"){
+                if(oUl.style.display=="none"){
+                    e.target.className="open";
+                    oUl.style.display ="block";
+                }else{
+                    e.target.className="close";
+                    oUl.style.display ="none";
+                    var oUls = oUl.getElementsByTagName("ul");
+                    for(var i = 0;i<oUls.length;i++){
+                        oUls[i].style.display = "none";
+                        oUls[i].previousElementSibling.className="close";
+                    }
+                }
+            }
+        }
+
+    }
+
+</script>

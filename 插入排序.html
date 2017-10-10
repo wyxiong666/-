@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+
+    var ary = [33,5,12,9,52,4];
+    function insertSort(ary){
+        var left = ary.splice(0,1);
+        for(var i = 0;i<ary.length;i++){
+            var cur = ary[i];
+            for(var j = left.length-1;j>=0;){
+                if(cur<left[j]){
+                    j--;
+                    if(j==-1){
+                       left.unshift(cur);
+                    }
+                }else{
+                    left.splice(j+1,0,cur);
+                    break;
+                }
+            }
+        }
+        return left;
+    }
+    console.log(insertSort(ary));
+
+
+</script>
+</body>
+</html>

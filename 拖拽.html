@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #div1{
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            left: 100px;
+            top: 100px;
+        }
+    </style>
+</head>
+<body>
+<div id="div1"></div>
+</body>
+</html>
+<script>
+    //鼠标按下时拖拽开始 mousedown
+    //鼠标按着并移动表示拖拽中,盒子随着鼠标而移动 mousemove
+    //鼠标松开时拖拽结束  mouseup
+    var oDiv = document.getElementById("div1");
+    oDiv.onmousedown = down;
+    function down(e){//按下
+        e = e||window.event;
+        this.x = this.offsetLeft;
+        this.y  = this.offsetTop;
+        this.mx = e.clientX;
+        this.my = e.clientY;
+        if(this.setCapture){//IE和ff支持,google不支持
+            this.setCapture();
+            this.onmousemove = move;
+            this.onmouseup = up;
+        }else{
+            var that  = this;
+            var MOVE = function(e){move.call(that,e)};
+            var UP = function(e){up.call(that,e)};
+            document.onmousemove = MOVE;
+            document.onmouseup = UP;
+        }
+    }
+    function move(e){//移动
+        e = e||window.event;
+        //设置盒子当前的位置 = 之前的位置+鼠标移动距离
+        this.style.left =this.x+ (e.clientX-this.mx)+"px";
+        this.style.top  = this.y+(e.clientY-this.my)+"px";
+        //this.prev //保存上次鼠标的坐标
+        if(!this.prev){
+            this.prev = this.mx;
+        }
+        this.speed = e.clientX-this.prev;//速度
+        this.prev = e.clientX;
+    }
+    function up(){//松开 解除绑定来释放鼠标
+        if(this.releaseCapture){//IE和ff支持,google不支持
+            this.releaseCapture();
+            this.onmousemove = null;
+            this.onmouseup = null;
+        }else{
+            document.onmousemove = null;
+            document.onmouseup = null
+        }
+        fly.call(this);
+    }
+    function fly(){
+        console.log(this.speed);
+        clearTimeout(this.flyTimer);
+        var that = this;
+        //新的盒子的位置  = 现在盒子的位置+速度
+        this.speed*=0.98;//值越大摩擦力越小,值越小摩擦力越大
+        var rSide = (document.documentElement.clientWidth||document.body.clientWidth)-this.offsetWidth;
+        if( this.offsetLeft+this.speed>rSide){
+            this.speed*=-1;
+            this.style.left = rSide+"px";
+        }else if(this.offsetLeft+this.speed<0){
+            this.speed*=-1;
+            this.style.left = 0;
+        }else{
+            this.style.left = this.offsetLeft+this.speed+"px";
+        }
+        if(Math.abs(this.speed)>0.5){//动画停下时的判断,Math.abs(this.speed)<0.5时动画已经停下来
+            this.flyTimer = window.setTimeout(function(){
+                fly.call(that);
+            },30);
+        }
+
+    }
+    //有个反应时间,一般5ms~6ms.,移动的太快则反应不过来,拿个绳子给把鼠标给拴住
+    //浏览器在5ms~6ms才能反应过来,并且鼠标移动,也就是鼠标移动的间隔时间是5ms~6ms,这个5ms~6ms可以看成单位间隔时间
+    //在单位时间时间内移动的距离叫速度
+    //获取鼠标移动的距离 =这次鼠标的坐标-上次鼠标的坐标
+    //每隔一段时间让盒子加个这个速度(有个摩擦力)进行移动
+</script>

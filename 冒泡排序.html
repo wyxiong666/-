@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body></body>
+</html>
+<script>
+    //从小到大排列 两两比较每次都把最大的值放到后面
+    var ary = [33,5,12,9,52];
+    for(var j = 0;j<ary.length-1;j++){//轮数
+        for(var i = 0;i<ary.length-1-j;i++){//次数
+            if(ary[i]>ary[i+1]){
+                var temp = ary[i];
+                ary[i] = ary[i+1];
+                ary[i+1] = temp;
+            }
+        }
+    }
+    console.log(ary);
+
+
+</script>

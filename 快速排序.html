@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    /*
+    快速排序思想：
+    1.先取出数组的中间这一项
+    2.定义两盒子，左盒子left 右盒子right
+    3.让取出的中间项和其他项进行比较，若比中间项小，则放左边盒子里，若比中间项大则放右边盒子里
+    4.左边盒子和右边盒子重复以上三个步骤
+
+    * */
+    var ary = [33,2,5,12,18,9,10];
+    function quickSort(ary){
+        if(ary.length<=1){
+            return ary;
+        }
+        var n = Math.floor(ary.length/2)
+        var point = ary.splice(n,1)[0];
+        var left = [];
+        var right = [];
+        for(var i = 0;i<ary.length;i++){
+            if(ary[i]<point){
+                left.push(ary[i])
+            }else{
+                right.push(ary[i])
+            }
+        }
+       return quickSort(left).concat(point, quickSort(right))
+    }
+    quickSort(ary);
+</script>
