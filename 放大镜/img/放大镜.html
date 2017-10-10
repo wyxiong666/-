@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        #lBox,#rBox{
+            height: 400px;
+            width: 400px;
+            box-shadow: 0 5px 5px rgb(210,210,210);
+            position: absolute;
+            left: 100px;
+            top: 50px;
+        }
+
+        #rBox{
+            position: absolute;
+            left: 600px;
+            overflow: hidden;
+            display: none;
+        }
+
+        #lBox img{
+            width: 100%;
+            height: 100%;
+        }
+
+        #rBox img{
+            width: 400%;
+            height: 400%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        #lBox #mask{
+            opacity: 0.5;
+            filter:alpha(opacity=50);
+            background-color: yellow;
+            width: 100px;
+            height:100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: none;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="lBox">
+    <img src="img/1.jpg">
+    <p id="mask"></p>
+</div>
+<div id="rBox">
+    <img src="img/2.jpg"/>
+</div>
+</body>
+</html>
+<script>
+
+    //获取每个元素
+    var lBox=document.getElementById('lBox');
+    var rBox=document.getElementById('rBox');
+    var oImg=rBox.getElementsByTagName('img')[0];
+    var oMask=document.getElementById('mask');
+
+    //事件处理
+    lBox.onmouseenter=function(e){
+        e=e||window.event;
+        oMask.style.display='block';
+        rBox.style.display='block';
+        oMask.style.left=e.clientX-lBox.offsetLeft-oMask.offsetWidth/2+'px';
+        oMask.style.top=e.clientY-lBox.offsetTop-oMask.offsetHeight/2+'px';
+    };
+
+    lBox.onmousemove=function(e){
+        e=e||window.event;
+        var minLeft=0;
+        var minTop=0;
+        var maxLeft=lBox.offsetWidth-oMask.offsetWidth;
+        var maxTop=lBox.offsetHeight-oMask.offsetHeight;
+        var x=e.clientX-lBox.offsetLeft-oMask.offsetWidth/2;
+        var y=e.clientY-lBox.offsetTop-oMask.offsetHeight/2;
+        if(x<minLeft){
+            x=0;
+        }
+        if(x>maxLeft){
+            x=maxLeft;
+        }
+        if(y<minTop){
+            y=0;
+        }
+        if(y>maxTop){
+            y=maxTop;
+        }
+        oMask.style.left=x+'px';
+        oMask.style.top=y+'px';
+        oImg.style.left=-4*x+'px';
+        oImg.style.top=-4*y+'px';
+    };
+
+    lBox.onmouseleave=function(){
+        oMask.style.display='none';
+        rBox.style.display='none';
+    };
+
+</script>

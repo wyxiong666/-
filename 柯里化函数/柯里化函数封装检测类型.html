@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body></body>
+</html>
+<script>
+    (function(){
+        var numObj = {
+            isNum :"Number",
+            isStr:"String",
+            isBoo:"Boolean",
+            isUndefined:"Undefined",
+            isNull:"Null",
+            isObj :"Object",
+            isArray:"Array",
+            isFunction:"Function",
+            isReg:"RegExp",
+            isDate :"Date"
+        };
+        function isType(){
+            var outerArg = arguments[0];//Array Number Object...
+            return function(){
+                var innerArg = arguments[0];
+                var reg = new RegExp("^\\[object "+outerArg+"\\]$","i");
+                return reg.test(Object.prototype.toString.call(innerArg))
+
+            }
+        }
+        var toolType = {};
+        for(var attr in numObj){
+            toolType[attr] = isType(numObj[attr])//小函数
+        }
+        window.$type = toolType;
+    })();
+
+    function fn(){}
+    console.log($type.isNum(1));
+    console.log($type.isFunction(fn));
+    console.log($type.isArray(1));//false
+</script>

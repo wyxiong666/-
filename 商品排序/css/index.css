@@ -1,0 +1,50 @@
+html,body{
+    height: 100%;
+    background: #F4F4F4;
+    font-size: 14px;
+    color: #555;
+}
+.wrap{
+    width: 1200px;
+    margin: 0 auto;
+}
+.menu{
+    height: 50px;
+    line-height: 50px;
+    background: #fff;
+}
+.menu span,.menu a{
+    float: left;
+}
+.menu span{
+    width: 90px;
+    text-align: center;
+}
+.menu a{
+    padding: 0 15px;
+    color: #999;
+}
+.menu a:hover{
+    color: red;
+}
+.list{
+    margin-left: -15px;
+}
+.list li{
+    float: left;
+    width: 194px;
+    padding: 0 15px;
+    margin:15px 0 15px 15px;
+    background: #fff;
+    border:1px solid #fff;
+}
+.list li img{
+    width: 100%;
+}
+.list li span{
+    display: block;
+    line-height: 40px;
+}
+.list li:hover{
+    border:1px solid red;
+}
